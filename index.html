@@ -1,26 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Commit App</title>
-</head>
-<body>
-
-<h2>Create Commit</h2>
-
-<input id="title" placeholder="Title"><br><br>
-<input id="description" placeholder="Description"><br><br>
-<input id="deadline" placeholder="Deadline"><br><br>
-
-<button onclick="createCommit()">Create</button>
-
-<h2>Commits</h2>
-<button onclick="loadCommits()">Load</button>
-
 <ul id="list"></ul>
 
 <script>
+const API = 'https://commit-dapp.onrender.com';
+
 async function createCommit() {
-  const res = await fetch('http://localhost:3000/commit', {
+  const res = await fetch(`${API}/commit`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -34,7 +18,7 @@ async function createCommit() {
 }
 
 async function loadCommits() {
-  const res = await fetch('http://localhost:3000/commits');
+  const res = await fetch(`${API}/commits`);
   const data = await res.json();
 
   const list = document.getElementById('list');
@@ -52,12 +36,12 @@ async function loadCommits() {
 }
 
 async function complete(id) {
-  await fetch(`http://localhost:3000/commit/${id}/complete`, { method: 'POST' });
+  await fetch(`${API}/commit/${id}/complete`, { method: 'POST' });
   loadCommits();
 }
 
 async function fail(id) {
-  await fetch(`http://localhost:3000/commit/${id}/fail`, { method: 'POST' });
+  await fetch(`${API}/commit/${id}/fail`, { method: 'POST' });
   loadCommits();
 }
 </script>
