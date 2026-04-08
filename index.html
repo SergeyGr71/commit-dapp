@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commit App</title>
+</head>
+<body>
+
+<h2>Create Commit</h2>
+
+<input id="title" placeholder="Title"><br><br>
+<input id="description" placeholder="Description"><br><br>
+<input id="deadline" placeholder="Deadline"><br><br>
+
+<button onclick="createCommit()">Create</button>
+
+<h2>Commits</h2>
+<button onclick="loadCommits()">Load</button>
+
+<ul id="list"></ul>
+
+<script>
+async function createCommit() {
+  const res = await fetch('http://localhost:3000/commit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: document.getElementById('title').value,
+      description: document.getElementById('description').value,
+      deadline: document.getElementById('deadline').value
+    })
+  });
+
+  alert('Created');
+}
+
+async function loadCommits() {
+  const res = await fetch('http://localhost:3000/commits');
+  const data = await res.json();
+
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+
+  data.forEach(c => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      ${c.title} - ${c.status}
+      <button onclick="complete(${c.id})">✅</button>
+      <button onclick="fail(${c.id})">❌</button>
+    `;
+    list.appendChild(li);
+  });
+}
+
+async function complete(id) {
+  await fetch(`http://localhost:3000/commit/${id}/complete`, { method: 'POST' });
+  loadCommits();
+}
+
+async function fail(id) {
+  await fetch(`http://localhost:3000/commit/${id}/fail`, { method: 'POST' });
+  loadCommits();
+}
+</script>
+
+</body>
+</html>
