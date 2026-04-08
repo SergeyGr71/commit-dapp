@@ -1,3 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commit App</title>
+</head>
+<body>
+
+<h2>Create Commit</h2>
+
+<input id="title" placeholder="Title"><br><br>
+<input id="description" placeholder="Description"><br><br>
+<input id="deadline" placeholder="Deadline"><br><br>
+
+<button onclick="createCommit()">Create</button>
+
+<h2>Commits</h2>
+<button onclick="loadCommits()">Load</button>
+
 <ul id="list"></ul>
 
 <script>
