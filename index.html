@@ -2,27 +2,91 @@
 <html>
 <head>
   <title>Commit App</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      width: 400px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .create {
+      background: #22c55e;
+      color: white;
+      width: 100%;
+    }
+
+    .load {
+      background: #3b82f6;
+      color: white;
+      width: 100%;
+    }
+
+    li {
+      background: #334155;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .actions button {
+      margin-right: 5px;
+    }
+  </style>
 </head>
 <body>
 
+<div class="container">
+
 <h2>Create Commit</h2>
 
-<input id="title" placeholder="Title"><br><br>
-<input id="description" placeholder="Description"><br><br>
-<input id="deadline" placeholder="Deadline"><br><br>
+<input id="title" placeholder="Title">
+<input id="description" placeholder="Description">
+<input id="deadline" placeholder="Deadline">
 
-<button onclick="createCommit()">Create</button>
+<button class="create" onclick="createCommit()">Create</button>
 
 <h2>Commits</h2>
-<button onclick="loadCommits()">Load</button>
+<button class="load" onclick="loadCommits()">Load</button>
 
 <ul id="list"></ul>
+
+</div>
 
 <script>
 const API = 'https://commit-dapp.onrender.com';
 
 async function createCommit() {
-  const res = await fetch(`${API}/commit`, {
+  await fetch(`${API}/commit`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -45,9 +109,13 @@ async function loadCommits() {
   data.forEach(c => {
     const li = document.createElement('li');
     li.innerHTML = `
-      ${c.title} - ${c.status}
-      <button onclick="complete(${c.id})">✅</button>
-      <button onclick="fail(${c.id})">❌</button>
+      <b>${c.title}</b><br>
+      ${c.description}<br>
+      Status: ${c.status}<br><br>
+      <div class="actions">
+        <button onclick="complete(${c.id})">✅</button>
+        <button onclick="fail(${c.id})">❌</button>
+      </div>
     `;
     list.appendChild(li);
   });
