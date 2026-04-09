@@ -19,8 +19,17 @@
       border-radius: 12px;
     }
 
+    h1 {
+      margin-bottom: 10px;
+    }
+
     h2 {
       margin-top: 20px;
+    }
+
+    p {
+      color: #94a3b8;
+      margin-bottom: 20px;
     }
 
     input {
@@ -67,11 +76,14 @@
 
 <div class="container">
 
+<h1>🚀 Commit dApp</h1>
+<p>Commit. Track. Prove.</p>
+
 <h2>Create Commit</h2>
 
-<input id="title" placeholder="Title">
-<input id="description" placeholder="Description">
-<input id="deadline" placeholder="Deadline">
+<input id="title" placeholder="Build app">
+<input id="description" placeholder="Finish MVP">
+<input id="deadline" placeholder="24 Apr">
 
 <button class="create" onclick="createCommit()">Create</button>
 
@@ -96,7 +108,12 @@ async function createCommit() {
     })
   });
 
-  alert('Created');
+  // очистка + автообновление (ВАЖНО)
+  document.getElementById('title').value = '';
+  document.getElementById('description').value = '';
+  document.getElementById('deadline').value = '';
+
+  loadCommits();
 }
 
 async function loadCommits() {
